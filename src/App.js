@@ -8,6 +8,11 @@ import CheckoutForm from "./components/CheckoutForm";
 
 import "./App.css";
 
+import useDarkMode from './hooks/useDarkMode';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon as fasMoon, faSun as fasSun } from '@fortawesome/free-solid-svg-icons';
+
 function App() {
   // array of plants that have been added to the cart
   const [cart, setCart] = useState([]);
@@ -22,12 +27,32 @@ function App() {
     setCart(cart.filter((p) => p.id !== plant.id));
   };
 
+  // dark mode
+  const [darkMode, setDarkMode] = useDarkMode(false);
+
+  const toggleMode = (e) => {
+    e.preventDefault();
+    setDarkMode(!darkMode);
+  };
+
+  const body = document.getElementsByTagName('body');
+
+  if (darkMode) {
+    body[0].style.background = '#0e101c';
+    body[0].style.color = 'white';
+
+  }
+  else {
+    body[0].style.background = '#c7c9d6';
+    body[0].style.color = 'black';
+  }
+
   return (
     <div>
       <Router>
         <nav className="container">
           <h1>
-            React Plants <span role="img">🌿</span>
+            React Plants <span role="img">🌿</span> {darkMode ? <FontAwesomeIcon className='icon' icon={fasSun} color={'white'} onClick={toggleMode} /> : <FontAwesomeIcon className='icon' icon={fasMoon} color={'black'} onClick={toggleMode} /> }
           </h1>
           <ul className="steps">
             <li>

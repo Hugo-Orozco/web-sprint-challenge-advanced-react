@@ -5,7 +5,8 @@ export default class PlantList extends Component {
   // add state with a property called "plants" - initialize as an empty array
 
   state = {
-    plants: []
+    plants: [],
+    filter: ''
   };
 
   // when the component mounts:
@@ -21,9 +22,24 @@ export default class PlantList extends Component {
   }
 
   render() {
+
+    const handleChange = (evt) => {
+
+      const { name, value } = evt.target;
+      this.setState({ [name]: value });
+
+    };
+
     return (
       <main className="plant-list">
-        {this.state?.plants?.map((plant) => (
+        <input
+          className='filter'
+          name='filter'
+          value={this.state.filter}
+          onChange={handleChange}
+          placeholder='Search'
+        />
+        {this.state?.plants?.filter((plant) => plant.name.toLowerCase().includes(this.state.filter.toLowerCase())).map((plant) => (
           <div className="plant-card" key={plant.id} data-testid="plant-card">
             <img className="plant-image" src={plant.img} alt={plant.name} />
             <div className="plant-details">
